@@ -4,18 +4,16 @@ import com.oracle.truffle.api.CompilerAsserts;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.ExplodeLoop;
 
-import clojure.lang.IFn;
-
 // see https://github.com/graalvm/simplelanguage/blob/master/language/src/main/java/com/oracle/truffle/sl/nodes/expression/SLInvokeNode.java
 
 public final class TrickleFnCallNode extends TrickleNode {
-    @Child
-    private TrickleNode fn;
+    // @Child
+    private String fn;
     
     @Children
     private TrickleNode[] args;
 
-    public TrickleFnCallNode(TrickleNode fn, TrickleNode[] args) {
+    public TrickleFnCallNode(String fn, TrickleNode[] args) {
         this.fn = fn;
         this.args = args;
     }
@@ -23,15 +21,18 @@ public final class TrickleFnCallNode extends TrickleNode {
     @ExplodeLoop
     @Override
     public Object execute(VirtualFrame frame) {
-        IFn fn = (IFn)this.fn.execute(frame);
+        // IFn fn = (IFn)this.fn.execute(frame);
 
         CompilerAsserts.compilationConstant(args.length);
         Object[] evaluated = new Object[args.length];
-
+        Object sum = 0;
         for (int i = 0; i < args.length; i++) {
-            evaluated[i]= args[i].execute(frame);
+            evaluated[i] = args[i].execute(frame);
+            Object x = evaluated[i];
+            sum = clojure.lang.Numbers.add(sum, x);
         }
-        return fn.applyTo(clojure.lang.RT.seq(evaluated));
+        return sum;
+        //return fn.applyTo(clojure.lang.RT.seq(evaluated));
     }
 
     @Override

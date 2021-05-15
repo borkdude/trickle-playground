@@ -14,7 +14,7 @@
                         (clojure "-M:gen-class"))}
   run-main {:doc "Runs main"
             :depends [compile-main]
-            :task (clojure "-M -m trickle.main")}
+            :task (apply clojure "-M -m trickle.main" *command-line-args*)}
   -classpath (str/trim (with-out-str (clojure "-Spath")))
   native-image {:doc "Builds native image"
                 :depends [compile-main -classpath]

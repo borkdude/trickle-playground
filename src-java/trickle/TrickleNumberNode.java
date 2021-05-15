@@ -2,10 +2,10 @@ package trickle;
 
 import com.oracle.truffle.api.frame.VirtualFrame;
 
-public final class TrickleIntNode extends TrickleNode {
-    private final int value;
+public final class TrickleNumberNode extends TrickleNode {
+    private final Number value;
 
-    public TrickleIntNode(int value) {
+    public TrickleNumberNode(Number value, String description) {
         this.value = value;
     }
 
@@ -16,6 +16,6 @@ public final class TrickleIntNode extends TrickleNode {
 
     @Override
     public int executeInt(VirtualFrame frame) {
-        return this.value;
+        throw new UnsupportedOperationException("Not implemented yet");
     }
 }
