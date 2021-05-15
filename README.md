@@ -7,7 +7,7 @@ something more useful in the future, but no promises!
 
 ## Build
 
-Prerequisite:
+Prerequisites:
 
 - [babashka](https://github.com/babashka/babashka#installation)
 - [GraalVM](https://www.graalvm.org/)
