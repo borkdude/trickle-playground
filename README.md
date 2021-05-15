@@ -12,7 +12,6 @@ Prerequisites:
 - [babashka](https://github.com/babashka/babashka#installation)
 - [GraalVM](https://www.graalvm.org/)
 - Set `GRAALVM_HOME` to the GraalVM home dir, e.g. `/Users/borkdude/Downloads/graalvm-ce-java11-21.1.0/Contents/Home`.
-- Set `JAVA_CMD` to `$GRAALVM_HOME/bin/java` to use GraalVM for Java and Clojure compilation.
 
 Then run `bb tasks` to see what you can do in this project:
 

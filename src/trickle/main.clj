@@ -1,6 +1,7 @@
 (ns trickle.main
-  (:import [trickle TrickleRootNode TrickleNode TrickleFnCallNode TrickleIntNode]
-           [com.oracle.truffle.api Truffle])
+  (:import [trickle TrickleRootNode TrickleNode TrickleFnCallNode TrickleIntNode TrickleLanguage]
+           [com.oracle.truffle.api Truffle]
+           [org.graalvm.polyglot Context Source])
   (:gen-class))
 
 (set! *warn-on-reflection* true)
@@ -16,6 +17,10 @@
              (into-array TrickleNode
                          [(TrickleIntNode. 1)
                           (TrickleIntNode. 2)])))
-        ct (.createCallTarget (Truffle/getRuntime) rn)
-        res (.call ct (into-array []))]
-    (prn res)))
+        _ (set! TrickleLanguage/rootNode rn)
+        ctx (.build (Context/newBuilder (into-array String ["trickle"])))
+        src (.build (Source/newBuilder "trickle" (java.io.File. "src/trickle/main.clj")))
+        res (.eval ctx src)
+        #_#_ct (.createCallTarget (Truffle/getRuntime) rn)
+        #_#_res (.call ct (into-array []))]
+    (prn (str res))))
