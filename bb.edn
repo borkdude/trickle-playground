@@ -1,0 +1,28 @@
+{:tasks
+ {:requires ([babashka.fs :as fs]
+             [clojure.string :as str])
+  -changed-java-sources (seq (fs/modified-since "classes" "src-java"))
+  -changed-sources (seq (fs/modified-since "classes" "src"))
+  compile-java {:depends [-changed-java-sources]
+                :task (when -changed-java-sources
+                        (clojure "-X:compile-java"))}
+  compile-main {:depends [compile-java -changed-java-sources -changed-sources]
+                :task (when (or -changed-java-sources
+                                -changed-sources)
+                        (clojure "-M:gen-class"))}
+  run-main {:depends [compile-main]
+            :task (clojure "-M -m trickle.main")}
+  classpath (str/trim (with-out-str (clojure "-Spath")))
+  native-image {:depends [compile-main classpath]
+                :task (do
+                        (shell (str (fs/file (System/getenv "GRAALVM_HOME")
+                                             "bin"
+                                             "native-image"))
+                               "-H:Name=trickle"
+                               "-cp" classpath
+                               "--initialize-at-build-time"
+                               "--macro:truffle"
+                               "--no-fallback"
+                               "--no-server"
+                               "trickle.main"))}
+  clean (fs/delete-tree "classes")}}

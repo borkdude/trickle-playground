@@ -1,0 +1,7 @@
+{:paths ["src" "classes"]
+ :deps {org.graalvm.truffle/truffle-api {:mvn/version "21.1.0"}
+        org.graalvm.truffle/truffle-dsl-processor {:mvn/version "21.1.0"}}
+ :aliases {:compile-java {:replace-deps {org.suskalo/americano {:mvn/version "1.0.0"}}
+                          :exec-fn americano.cli/javac
+                          :exec-args {:source-paths ["src-java"]}}
+           :gen-class {:main-opts ["-e" "(compile 'trickle.main)"]}}}

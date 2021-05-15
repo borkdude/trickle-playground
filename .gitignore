@@ -1,0 +1,10 @@
+/classes
+/target
+/.cpcache
+/.classpath
+/.factorypath
+/.project
+/.settings
+pom.xml
+/trickle
+/trickle.build_artifacts.txt
