@@ -1,6 +1,6 @@
 # Trickle
 
-A Truffle Clojure Interpreter.
+A Truffle Clojure Interpreter (playground).
 
 Currently just playing around to learn more about Truffle. It might turn into
 something more useful in the future, but no promises!
